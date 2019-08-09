@@ -34,7 +34,9 @@ class JobRequest(BaseRequest):
 
         if self.ca_cert:
             # cert has to be provided in a file, so we need to stash it on disk
-            cert_dir = Path('/etc/prometheus-manual-interface/certs')
+            # FIXME: this should probably be provided by the charm, but it also
+            # needs to be populated into the JSON data
+            cert_dir = Path('/var/snap/prometheus/common/certs')
             cert_dir.mkdir(parents=True, exist_ok=True)
 
             # use a hash of the cert data rather than the request ID so that we
