@@ -14,7 +14,7 @@ class PrometheusManualProvides(RequesterEndpoint):
         toggle_flag(self.expand_name('endpoint.{endpoint_name}.available'),
                     self.is_joined and self.requests)
 
-    def register_job(self, job_name, job_data, ca_cert=None, relation=None):
+    def register_job(self, job_name, job_data, ca_cert=None, relation=None, timestamp=None):
         """
         Register a manual job.
 
@@ -38,4 +38,5 @@ class PrometheusManualProvides(RequesterEndpoint):
                                         relation=relation,
                                         job_name=job_name,
                                         job_data=job_data,
-                                        ca_cert=ca_cert)
+                                        ca_cert=ca_cert,
+                                        timestamp=timestamp)

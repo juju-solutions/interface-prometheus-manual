@@ -18,6 +18,8 @@ class JobRequest(BaseRequest):
     job_data = Field('Config data for the job.')
 
     ca_cert = Field('Cert data for the CA used to validate connections.')
+    
+    timestamp = Field('Time that request created.')
 
     def to_json(self, ca_file=None):
         """
