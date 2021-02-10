@@ -19,6 +19,16 @@ class JobRequest(BaseRequest):
 
     ca_cert = Field('Cert data for the CA used to validate connections.')
 
+    @classmethod
+    def create(cls, relation, **fields):
+        request_id = fields.setdefault('request_id', fields['job_name'])
+        # pre-populate the field data directly in the data store (more
+        # efficient than calling _update_field for every field)
+        relation.to_publish['request_' + request_id] = fields
+        relation.app = True
+        cls._cache[request_id] = cls(relation, request_id)
+        return cls._cache[request_id]
+
     def to_json(self, ca_file=None):
         """
         Render the job request to JSON string which can be included directly
