@@ -22,7 +22,7 @@ class JobRequest(BaseRequest):
     @classmethod
     def create(cls, relation, **fields):
         relation.app = True
-        request_id = fields.setdefault('request_id', fields['job_name'])
+        fields.setdefault('request_id', fields['job_name'])
         super().create(relation, **fields)
 
     def to_json(self, ca_file=None):
