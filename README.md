@@ -63,7 +63,7 @@ def register_prometheus_jobs():
 
 # Reference
 
-* [common.md](common.md)
+* [common.md](docs/common.md)
   * [JobRequest](docs/common.md#jobrequest)
     * [egress_subnets](docs/common.md#jobrequest-egress_subnets)
     * [fromkeys](docs/common.md#jobrequest-fromkeys)
@@ -74,7 +74,7 @@ def register_prometheus_jobs():
     * [to_json](docs/common.md#jobrequest-to_json)
   * [JobResponse](docs/common.md#jobresponse)
     * [fromkeys](docs/common.md#jobresponse-fromkeys)
-* [provides.md](provides.md)
+* [provides.md](docs/provides.md)
   * [PrometheusManualProvides](docs/provides.md#prometheusmanualprovides)
     * [all_departed_units](docs/provides.md#prometheusmanualprovides-all_departed_units)
     * [all_joined_units](docs/provides.md#prometheusmanualprovides-all_joined_units)
@@ -87,7 +87,7 @@ def register_prometheus_jobs():
     * [relations](docs/provides.md#prometheusmanualprovides-relations)
     * [requests](docs/provides.md#prometheusmanualprovides-requests)
     * [responses](docs/provides.md#prometheusmanualprovides-responses)
-* [requires.md](requires.md)
+* [requires.md](docs/requires.md)
   * [PrometheusManualRequires](docs/requires.md#prometheusmanualrequires)
     * [all_departed_units](docs/requires.md#prometheusmanualrequires-all_departed_units)
     * [all_joined_units](docs/requires.md#prometheusmanualrequires-all_joined_units)
