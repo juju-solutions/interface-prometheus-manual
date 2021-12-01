@@ -44,13 +44,23 @@ Whether this request was received by the other side of the relation.
 Acknowledge this request, and indicate success or failure with an
 optional explanation.
 
-## <a id="jobrequest-to_json"></a>`def to_json(self)`
+## <a id="jobrequest-to_json"></a>`def to_json(self, ca_file=None, cert_file=None, key_file=None)`
 
 Render the job request to JSON string which can be included directly
 into Prometheus config.
 
 Keys will be sorted in the rendering to ensure a stable ordering for
 comparisons to detect changes.
+
+If `ca_file` is given, it will be used to replace the value of any
+`ca_file` fields in the job.
+
+If `cert_file` and `key_file` are given, they will be used to replace
+the value of any `cert_file` and `key_file` fields in the job.
+
+The charm should ensure that the request's `ca_cert`, `client_cert`
+and `client_key` data is writen to those paths prior to calling this
+method.
 
 # <a id="jobresponse"></a>`class JobResponse(BaseResponse)`
 
@@ -59,4 +69,3 @@ Base class for responses using the request / response pattern.
 ## <a id="jobresponse-fromkeys"></a>`None`
 
 Returns a new dict with keys from iterable and values equal to value.
-

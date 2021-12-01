@@ -14,7 +14,15 @@ class PrometheusManualProvides(RequesterEndpoint):
         toggle_flag(self.expand_name('endpoint.{endpoint_name}.available'),
                     self.is_joined and self.requests)
 
-    def register_job(self, job_name, job_data, ca_cert=None, relation=None):
+    def register_job(
+        self,
+        job_name,
+        job_data,
+        ca_cert=None,
+        client_cert=None,
+        client_key=None,
+        relation=None,
+    ):
         """
         Register a manual job.
 
@@ -27,6 +35,10 @@ class PrometheusManualProvides(RequesterEndpoint):
         will be replaced with a filename after the CA cert data is written, so
         a placeholder value should be used.
 
+        If a client cert and key are given, the value of any cert_file/key_file
+        fields in the job data will be replaced with filenames pointing to the
+        corresponding files after there data is written.
+
         If a specific relation is not given, the job will be registered with
         every related Prometheus.
         """
@@ -38,4 +50,6 @@ class PrometheusManualProvides(RequesterEndpoint):
                                         relation=relation,
                                         job_name=job_name,
                                         job_data=job_data,
-                                        ca_cert=ca_cert)
+                                        ca_cert=ca_cert,
+                                        client_cert=client_cert,
+                                        client_key=client_key)
