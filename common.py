@@ -19,7 +19,11 @@ class JobRequest(BaseRequest):
 
     ca_cert = Field('Cert data for the CA used to validate connections.')
 
-    def to_json(self, ca_file=None):
+    client_cert = Field('Cert data for the client used to make connections.')
+
+    client_key = Field('Key data for the client used to make connections.')
+
+    def to_json(self, ca_file=None, cert_file=None, key_file=None):
         """
         Render the job request to JSON string which can be included directly
         into Prometheus config.
@@ -28,8 +32,13 @@ class JobRequest(BaseRequest):
         comparisons to detect changes.
 
         If `ca_file` is given, it will be used to replace the value of any
-        `ca_file` fields in the job.  The charm should ensure that the
-        request's `ca_cert` data is writen to that path prior to calling this
+        `ca_file` fields in the job.
+
+        If `cert_file` and `key_file` are given, they will be used to replace
+        the value of any `cert_file` and `key_file` fields in the job.
+
+        The charm should ensure that the request's `ca_cert`, `client_cert`
+        and `client_key` data is writen to those paths prior to calling this
         method.
         """
         job_data = deepcopy(self.job_data)  # make a copy we can modify
@@ -44,8 +53,29 @@ class JobRequest(BaseRequest):
                 # update the cert path at the SD config level
                 if key.endswith('_sd_configs'):
                     for sd_config in value:
-                        if 'ca_file' in sd_config.get('tls_config', {}):
-                            sd_config['tls_config']['ca_file'] = str(ca_file)
+                        sd_tls_config = sd_config.get('tls_config', {})
+                        if not sd_tls_config:
+                            continue
+                        if 'ca_file' in sd_tls_config:
+                            sd_tls_config['ca_file'] = str(ca_file)
+
+        if cert_file and key_file:
+            for key, value in job_data.items():
+                # update the cert/key paths at the job level
+                if key == 'tls_config':
+                    value['cert_file'] = str(cert_file)
+                    value['key_file'] = str(key_file)
+
+                # update the cert/key paths at the SD config level
+                if key.endswith('_sd_configs'):
+                    for sd_config in value:
+                        sd_tls_config = sd_config.get('tls_config', {})
+                        if not sd_tls_config:
+                            continue
+                        if 'client_file' in sd_tls_config:
+                            sd_tls_config['cert_file'] = str(cert_file)
+                        elif 'key_file' in sd_tls_config:
+                            sd_tls_config['key_file'] = str(key_file)
 
         return json.dumps(job_data, sort_keys=True)
 

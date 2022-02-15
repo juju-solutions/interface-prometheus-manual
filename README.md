@@ -8,9 +8,11 @@ Configuration Docs][].  The job configuration will be included as an item
 under `scrape_configs` largely unchanged, except for two things:
 
 * To ensure uniqueness, the provided job name will have a UUID appended to it.
-* Because the CA cert must be written to disk separately from the config, any
-  `tls_config` sections will have their `ca_file` field values replaced with
-  the path to the file where the provided `ca_cert` data is written.
+* Because the CA cert, client cert and key must be written to disk separately
+  from the config, any `tls_config` sections will have their `ca_file`,
+  `cert_file` and `key_file` field values replaced with the path to the file
+  where the provided `ca_cert`, `client_cert` and `client_key` data is written
+  respectively.
 
 # Example Usage
 
@@ -107,7 +109,6 @@ def register_prometheus_jobs():
 # Contact Information
 
 Maintainer: Cory Johns &lt;Cory.Johns@canonical.com&gt;
-
 
 [Juju]: https://jujucharms.com
 [Prometheus Configuration Docs]: https://prometheus.io/docs/prometheus/latest/configuration/configuration/

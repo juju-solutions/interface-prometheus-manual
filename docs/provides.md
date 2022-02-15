@@ -82,7 +82,7 @@ needed during startup.
 This will be called automatically after the framework-managed automatic
 flags have been updated.
 
-## <a id="prometheusmanualprovides-register_job"></a>`def register_job(self, job_name, job_data, ca_cert=None)`
+## <a id="prometheusmanualprovides-register_job"></a>`def register_job(self, job_name, job_data, ca_cert=None, client_cert=None, client_key=None)`
 
 Register a manual job.
 
@@ -94,6 +94,10 @@ be injected into the job data.
 If a CA cert is given, the value of any ca_file field in the job data
 will be replaced with a filename after the CA cert data is written, so
 a placeholder value should be used.
+
+If a client cert and key are given, the value of any cert_file/key_file
+fields in the job data will be replaced with filenames pointing to the
+corresponding files after there data is written.
 
 ## <a id="prometheusmanualprovides-relations"></a>`relations`
 
@@ -116,4 +120,3 @@ A list of all requests which have been submitted.
 ## <a id="prometheusmanualprovides-responses"></a>`responses`
 
 A list of all responses which have been received.
-
