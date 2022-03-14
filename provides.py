@@ -1,15 +1,16 @@
 from charms.reactive import (
     toggle_flag,
-    RequesterEndpoint,
+    Endpoint,
 )
 
 
-class PrometheusManualProvides(RequesterEndpoint):
+class PrometheusManualProvides(Endpoint):
 
     def manage_flags(self):
         super().manage_flags()
         toggle_flag(self.expand_name('endpoint.{endpoint_name}.available'),
-                    self.is_joined and self.requests)
+                    self.is_joined)
+                    #self.is_joined and self.requests)
 
     def register_job(
         self,
