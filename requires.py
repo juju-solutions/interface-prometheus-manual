@@ -13,7 +13,8 @@ class Job(object):
         for key in dic:
             setattr(self, key, dic[key])
 
-
+    # seyeong kim : I moved this code from request_reponse pattern as
+    # compatibility
     def to_json(self, ca_file=None, cert_file=None, key_file=None):
         """
         Render the job request to JSON string which can be included directly
@@ -79,7 +80,8 @@ class PrometheusManualRequires(Endpoint):
     @property
     def jobs(self):
         """
-        Return a list of all jobs to be registered.
+        Return a list of all jobs to be registered by using application
+        relation data
         """
         ret = []
         for job in self.relations[0].received_app.values():
