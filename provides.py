@@ -1,18 +1,16 @@
 from charms.reactive import (
     toggle_flag,
-    RequesterEndpoint,
+    Endpoint,
 )
 
-from .common import JobRequest
 
-
-class PrometheusManualProvides(RequesterEndpoint):
-    REQUEST_CLASS = JobRequest
+class PrometheusManualProvides(Endpoint):
 
     def manage_flags(self):
         super().manage_flags()
         toggle_flag(self.expand_name('endpoint.{endpoint_name}.available'),
-                    self.is_joined and self.requests)
+                    self.is_joined)
+                    #self.is_joined and self.requests)
 
     def register_job(
         self,
@@ -46,10 +44,11 @@ class PrometheusManualProvides(RequesterEndpoint):
         # reason, so just send the job to all of them
         relations = [relation] if relation is not None else self.relations
         for relation in relations:
-            JobRequest.create_or_update(match_fields=['job_name'],
-                                        relation=relation,
-                                        job_name=job_name,
-                                        job_data=job_data,
-                                        ca_cert=ca_cert,
-                                        client_cert=client_cert,
-                                        client_key=client_key)
+            relation.to_publish_app['job_'+job_name] = {
+                'job_name': job_name,
+                'job_data': job_data,
+                'ca_cert': ca_cert,
+                'client_cert': client_cert,
+                'client_key': client_key
+            }
+            relation._flush_data()
